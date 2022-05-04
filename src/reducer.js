@@ -8,6 +8,18 @@ export const reducer = (state, action) => {
       if (payload?.digit === "." && state.currentOperand?.includes("."))
         return state;
       if (payload?.digit === 0 && state.currentOperand === "0") return state;
+      if (payload?.digit === "+/-") {
+        console.error("here");
+        const string = state.currentOperand.toString();
+        const toggleNegative = state.currentOperand.startsWith("-")
+          ? string.substring(1)
+          : `-${string}`;
+        return {
+          ...state,
+          currentOperand: toggleNegative,
+        };
+      }
+      if (state.currentOperand?.length > 8) return state;
       if (
         state.currentOperand === "0" &&
         payload?.digit !== 0 &&
@@ -48,13 +60,28 @@ export const reducer = (state, action) => {
       if (state.operation === null || state.previousOperand === null)
         return state;
 
+      if (state.previousValues?.length > 10) {
+        const array = state.previousValues.slice(
+          0,
+          2,
+          `${state.previousOperand}${state.operation}${state.currentOperand}`,
+          evaluate(state)
+        );
+        return {
+          ...state,
+          operation: null,
+          previousOperand: null,
+          currentOperand: "0",
+          previousValues: [...array],
+        };
+      }
       return {
         ...state,
         operation: null,
         previousOperand: null,
         currentOperand: "0",
-        lastValues: [
-          ...state.lastValues,
+        previousValues: [
+          ...state.previousValues,
           `${state.previousOperand}${state.operation}${state.currentOperand}`,
           evaluate(state),
         ],
@@ -75,10 +102,10 @@ const evaluate = ({ currentOperand, previousOperand, operation }) => {
       expression = current + previous;
       break;
     case "-":
-      expression = current - previous;
+      expression = previous - current;
       break;
     case "/":
-      expression = current / previous;
+      expression = previous / current;
       break;
     case "*":
       expression = current * previous;

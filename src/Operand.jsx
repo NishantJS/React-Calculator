@@ -3,7 +3,10 @@ import { ADD_DIGIT } from "./constants";
 
 const Operand = ({ dispatch, digit }) => {
   return (
-    <button onClick={() => dispatch({ type: ADD_DIGIT, payload: { digit } })}>
+    <button
+      className={`${digit === 0 ? "zero" : ""}`}
+      onClick={() => dispatch({ type: ADD_DIGIT, payload: { digit } })}
+    >
       {digit}
     </button>
   );

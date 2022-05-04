@@ -1,0 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald&display=swap");
+
+body,
+section,
+div,
+button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  min-height: 100vh;
+  #root {
+    width: 100%;
+    height: 100%;
+  }
+}

@@ -1,0 +1,101 @@
+@import "variables";
+
+section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #e5e5e5;
+
+  .calculator {
+    width: min(100vw, 400px);
+    display: flex;
+    flex-direction: column;
+    background-color: #2e2c2c;
+    background-image: $screen_background;
+    border-radius: $border_radius;
+
+    .display {
+      color: $primary_color;
+      height: max(200px, 25vh);
+      font-family: "Oswald";
+      font-style: normal;
+      font-weight: 500;
+      line-height: 53px;
+      padding: 10px 20px 10px 0;
+      display: flex;
+      align-items: flex-end;
+      flex-direction: column;
+      font-size: $large_font;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      span {
+        margin-top: auto;
+      }
+
+      span:nth-child(even) {
+        color: gray;
+      }
+      span:nth-child(odd) {
+        font-size: 36px;
+        color: $previous_equation;
+      }
+      span:last-child {
+        font-size: $large_font;
+        color: $primary_color;
+      }
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-gap: $button_gap;
+      place-items: center;
+      padding: 20px;
+      background-color: $primary_color;
+
+      button {
+        outline: 0;
+        border: 0;
+        width: $button_width;
+        height: $button_width;
+        border-radius: 16px;
+        color: $operand_color;
+        background-color: $primary_color;
+        box-shadow: $box_shadow;
+        font-family: "Oswald";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 36px;
+        line-height: 53px;
+        cursor: pointer;
+
+        &.zero {
+          text-align: left;
+          padding-left: 25px;
+          width: calc(100% - $button_gap * 2);
+          grid-column-start: 1;
+          grid-column-end: 3;
+        }
+
+        &.operator {
+          color: $operator_color;
+        }
+      }
+
+      button:last-child {
+        background-color: $eqal_button_color;
+        color: $primary_color;
+        box-shadow: -10px -10px 24px #ffffff,
+          10px 10px 24px rgba(174, 174, 192, 0.52);
+      }
+    }
+  }
+}

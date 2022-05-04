@@ -1,30 +1,37 @@
-import { useReducer } from "react";
+import { useReducer, useEffect, useRef } from "react";
 import Buttons from "./Buttons";
 import "./style/main.scss";
 import { reducer } from "./reducer";
+import PreviousOutput from "./PreviousOutput";
 
 export const defaultState = {
   currentOperand: "0",
   previousOperand: null,
   operation: null,
   overwrite: false,
-  lastValues: [],
+  previousValues: [],
 };
 
 const App = () => {
-  const [{ currentOperand, previousOperand, operation, lastValues }, dispatch] =
-    useReducer(reducer, defaultState);
+  const [
+    { currentOperand, previousOperand, operation, previousValues },
+    dispatch,
+  ] = useReducer(reducer, defaultState);
+  const displayRef = useRef(null);
 
-  console.log(lastValues);
+  useEffect(() => {
+    const elem = displayRef?.current;
+    elem.scrollTop = elem.scrollHeight;
+  }, [previousValues]);
 
   return (
     <section>
       <div className="calculator">
-        <div className="display">
-          {/* <div className="previous_output">{lastValues}</div> */}
-          <div className="current_output">
+        <div className="display" ref={displayRef}>
+          <PreviousOutput previousValues={previousValues} />
+          <span>
             {previousOperand} {operation} {currentOperand}
-          </div>
+          </span>
         </div>
         <div className="buttons">
           <Buttons dispatch={dispatch} />

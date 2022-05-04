@@ -9,7 +9,7 @@ const Operator = ({ operation, dispatch }) => {
       case "c":
         return dispatch({ type: CLEAR_ALL });
       case "+/-":
-        return dispatch({ type: CHOOSE_OPERATOR, payload: { operation } });
+        return dispatch({ type: ADD_DIGIT, payload: { digit: operation } });
       case "=":
         return dispatch({ type: EVAL });
       default:
