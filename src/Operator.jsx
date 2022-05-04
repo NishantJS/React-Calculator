@@ -3,7 +3,7 @@ import { ADD_DIGIT, CHOOSE_OPERATOR, CLEAR_ALL, EVAL } from "./constants";
 
 const Operator = ({ operation, dispatch }) => {
   const selectDispatch = (operator) => {
-    switch (operation) {
+    switch (operator) {
       case ".":
         return dispatch({ type: ADD_DIGIT, payload: { digit: operation } });
       case "c":

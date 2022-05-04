@@ -1,15 +1,8 @@
-import {
-  ADD_DIGIT,
-  CHOOSE_OPERATOR,
-  CLEAR_ALL,
-  DELETE_LAST,
-  EVAL,
-} from "./constants";
+import { ADD_DIGIT, CHOOSE_OPERATOR, CLEAR_ALL, EVAL } from "./constants";
 import { defaultState } from "./App";
 
 export const reducer = (state, action) => {
   const { type, payload } = action;
-  console.log({ state, action });
   switch (type) {
     case ADD_DIGIT:
       if (payload?.digit === "." && state.currentOperand?.includes("."))
@@ -32,12 +25,18 @@ export const reducer = (state, action) => {
 
     case CHOOSE_OPERATOR:
       if (!state.currentOperand && !state.previousOperand) return state;
-      if (state?.previousOperand === null)
+      if (state.previousOperand === null)
         return {
           ...state,
           operation: payload?.operation,
           previousOperand: state.currentOperand,
           currentOperand: null,
+        };
+
+      if (state.currentOperand === null)
+        return {
+          ...state,
+          operation: payload?.operation,
         };
 
       return state;
@@ -53,8 +52,12 @@ export const reducer = (state, action) => {
         ...state,
         operation: null,
         previousOperand: null,
-        overwite: true,
-        currentOperand: evaluate(state),
+        currentOperand: "0",
+        lastValues: [
+          ...state.lastValues,
+          `${state.previousOperand}${state.operation}${state.currentOperand}`,
+          evaluate(state),
+        ],
       };
 
     default:
@@ -65,8 +68,8 @@ export const reducer = (state, action) => {
 const evaluate = ({ currentOperand, previousOperand, operation }) => {
   const current = parseFloat(currentOperand);
   const previous = parseFloat(previousOperand);
-  if (isNaN(current) || isNaN(previous)) return "";
-  let expression = "";
+  if (isNaN(current) || isNaN(previous)) return "0";
+  let expression = "0";
   switch (operation) {
     case "+":
       expression = current + previous;

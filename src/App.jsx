@@ -8,23 +8,22 @@ export const defaultState = {
   previousOperand: null,
   operation: null,
   overwrite: false,
+  lastValues: [],
 };
 
 const App = () => {
-  const [{ currentOperand, previousOperand, operation }, dispatch] = useReducer(
-    reducer,
-    defaultState
-  );
+  const [{ currentOperand, previousOperand, operation, lastValues }, dispatch] =
+    useReducer(reducer, defaultState);
 
-  console.log({ currentOperand, previousOperand, operation });
+  console.log(lastValues);
 
   return (
     <section>
       <div className="calculator">
         <div className="display">
-          <div className="previous_output">{currentOperand}</div>
+          {/* <div className="previous_output">{lastValues}</div> */}
           <div className="current_output">
-            {previousOperand} {operation}
+            {previousOperand} {operation} {currentOperand}
           </div>
         </div>
         <div className="buttons">
