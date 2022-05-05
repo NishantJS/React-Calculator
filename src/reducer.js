@@ -5,12 +5,30 @@ export const reducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case ADD_DIGIT:
+      if (state.overwrite) {
+        if (state.previousValues?.length > 10) {
+          const array = state.previousValues.slice(0, 1, state.currentOperand);
+
+          return {
+            ...state,
+            currentOperand: payload?.digit,
+            overwrite: false,
+            previousValues: [...array],
+          };
+        }
+        return {
+          ...state,
+          overwrite: false,
+          currentOperand: payload?.digit,
+          previousValues: [...state.previousValues, state.currentOperand],
+        };
+      }
       if (payload?.digit === "." && state.currentOperand?.includes("."))
         return state;
-      if (payload?.digit === 0 && state.currentOperand === "0") return state;
+      if (payload?.digit === "0" && state.currentOperand === "0") return state;
       if (payload?.digit === "+/-") {
-        console.error("here");
-        const string = state.currentOperand.toString();
+        if (state.currentOperand === null) return state;
+        const string = state.currentOperand?.toString();
         const toggleNegative = state.currentOperand.startsWith("-")
           ? string.substring(1)
           : `-${string}`;
@@ -22,7 +40,7 @@ export const reducer = (state, action) => {
       if (state.currentOperand?.length > 8) return state;
       if (
         state.currentOperand === "0" &&
-        payload?.digit !== 0 &&
+        payload?.digit !== "0" &&
         payload?.digit !== "."
       )
         return {
@@ -63,15 +81,15 @@ export const reducer = (state, action) => {
       if (state.previousValues?.length > 10) {
         const array = state.previousValues.slice(
           0,
-          2,
-          `${state.previousOperand}${state.operation}${state.currentOperand}`,
-          evaluate(state)
+          1,
+          `${state.previousOperand}${state.operation}${state.currentOperand}`
         );
         return {
           ...state,
           operation: null,
           previousOperand: null,
-          currentOperand: "0",
+          currentOperand: evaluate(state),
+          overwrite: true,
           previousValues: [...array],
         };
       }
@@ -79,11 +97,11 @@ export const reducer = (state, action) => {
         ...state,
         operation: null,
         previousOperand: null,
-        currentOperand: "0",
+        currentOperand: evaluate(state),
+        overwrite: true,
         previousValues: [
           ...state.previousValues,
           `${state.previousOperand}${state.operation}${state.currentOperand}`,
-          evaluate(state),
         ],
       };
 

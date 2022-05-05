@@ -33,8 +33,11 @@ const App = () => {
             {previousOperand} {operation} {currentOperand}
           </span>
         </div>
-        <div className="buttons">
-          <Buttons dispatch={dispatch} />
+        <div className="bottom">
+          <div className="scroller"></div>
+          <div className="buttons">
+            <Buttons dispatch={dispatch} />
+          </div>
         </div>
       </div>
     </section>

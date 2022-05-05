@@ -6,29 +6,27 @@ section {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #e5e5e5;
+  background: $previous_equation;
+  overflow: hidden;
 
   .calculator {
     width: min(100vw, 400px);
     display: flex;
     flex-direction: column;
+    border-radius: 15px;
+    justify-content: space-between;
     background-color: #2e2c2c;
     background-image: $screen_background;
-    border-radius: $border_radius;
+    overflow: hidden;
 
     .display {
       color: $primary_color;
-      height: max(200px, 25vh);
+      height: max(200px, 10vh);
       font-family: "Oswald";
-      font-style: normal;
-      font-weight: 500;
-      line-height: 53px;
       padding: 10px 20px 10px 0;
       display: flex;
       align-items: flex-end;
       flex-direction: column;
-      font-size: $large_font;
-      overflow-x: hidden;
       overflow-y: scroll;
       -ms-overflow-style: none;
       scrollbar-width: none;
@@ -36,15 +34,13 @@ section {
       &::-webkit-scrollbar {
         display: none;
       }
-      span {
-        margin-top: auto;
-      }
 
       span:nth-child(even) {
+        font-size: $large_font;
         color: gray;
       }
       span:nth-child(odd) {
-        font-size: 36px;
+        font-size: $small_font;
         color: $previous_equation;
       }
       span:last-child {
@@ -53,49 +49,80 @@ section {
       }
     }
 
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-gap: $button_gap;
-      place-items: center;
-      padding: 20px;
+    .bottom {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
       background-color: $primary_color;
+      border-radius: $border_radius;
+      padding: 20px 10px;
+      align-items: center;
 
-      button {
-        outline: 0;
-        border: 0;
-        width: $button_width;
-        height: $button_width;
-        border-radius: 16px;
-        color: $operand_color;
-        background-color: $primary_color;
-        box-shadow: $box_shadow;
-        font-family: "Oswald";
-        font-style: normal;
-        font-weight: 500;
-        font-size: 36px;
-        line-height: 53px;
-        cursor: pointer;
-
-        &.zero {
-          text-align: left;
-          padding-left: 25px;
-          width: calc(100% - $button_gap * 2);
-          grid-column-start: 1;
-          grid-column-end: 3;
-        }
-
-        &.operator {
-          color: $operator_color;
-        }
+      .scroller {
+        background: #eee;
+        width: 118px;
+        height: 10px;
+        margin: 15px 0 25px 0;
+        box-shadow: inset -1px -1px 1px rgba(255, 255, 255, 0.7),
+          inset 1px 1px 2px rgba(174, 174, 192, 0.2);
+        border-radius: 12px;
       }
 
-      button:last-child {
-        background-color: $eqal_button_color;
-        color: $primary_color;
-        box-shadow: -10px -10px 24px #ffffff,
-          10px 10px 24px rgba(174, 174, 192, 0.52);
+      .buttons {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: $button_gap;
+        place-items: center;
+
+        button {
+          outline: 0;
+          border: 0;
+          width: $button_width;
+          height: $button_width;
+          border-radius: $border_radius;
+          color: $operand_color;
+          background-color: $primary_color;
+          box-shadow: $box_shadow;
+          font-family: "Oswald";
+          font-style: normal;
+          font-weight: 500;
+          font-size: 36px;
+          line-height: 53px;
+          cursor: pointer;
+
+          &.zero {
+            text-align: left;
+            padding-left: 25px;
+            width: calc(100% - $button_gap * 2);
+            grid-column-start: 1;
+            grid-column-end: 3;
+          }
+
+          &.operator {
+            color: $operator_color;
+          }
+        }
+
+        button:last-child {
+          background-color: $eqal_button_color;
+          color: $primary_color;
+          box-shadow: -10px -10px 24px #ffffff,
+            10px 10px 24px rgba(174, 174, 192, 0.52);
+        }
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  section .calculator {
+    width: 100vh;
+    height: 100vh;
+    border-radius: 0;
+
+    .display {
+      height: auto;
     }
   }
 }

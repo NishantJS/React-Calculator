@@ -5,7 +5,9 @@ const Operand = ({ dispatch, digit }) => {
   return (
     <button
       className={`${digit === 0 ? "zero" : ""}`}
-      onClick={() => dispatch({ type: ADD_DIGIT, payload: { digit } })}
+      onClick={() =>
+        dispatch({ type: ADD_DIGIT, payload: { digit: digit.toString() } })
+      }
     >
       {digit}
     </button>
